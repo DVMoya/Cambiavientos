@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5566847161213475192
+--- !u!114 &-4261710734477246866
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TextureExample
-  m_Shader: {fileID: -6465566751694194690, guid: 87333e6542cf6e2428ccd47dc0ff12db, type: 3}
+  m_Name: CellShadeExample
+  m_Shader: {fileID: -6465566751694194690, guid: 3c60f9f5eef9b2a4dac719a4bb845427, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -54,9 +54,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AmbientLightStrength: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 1, b: 0.60366416, a: 0}
-    - _ScrollVelocity: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CutoffThreshold: {r: -0.05, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []

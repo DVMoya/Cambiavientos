@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5566847161213475192
+--- !u!114 &-2078837987703940625
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,13 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TextureExample
-  m_Shader: {fileID: -6465566751694194690, guid: 87333e6542cf6e2428ccd47dc0ff12db, type: 3}
+  m_Name: LighingExample
+  m_Shader: {fileID: -6465566751694194690, guid: f097861765b078c4884efe6140b968e3, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -36,8 +36,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AmbientOcclusionTexture:
+        m_Texture: {fileID: 2800000, guid: 021133e518b293d43ab21aa2c494c3ce, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseTexture:
         m_Texture: {fileID: 2800000, guid: 5fc4d1444e28d734c8c1edad480142b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightMap:
+        m_Texture: {fileID: 2800000, guid: 0a6515d7741a73643a7019a0beafaaa0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTexture:
+        m_Texture: {fileID: 2800000, guid: e84117fdf7ff43e4787438f07679088d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessTexture:
+        m_Texture: {fileID: 2800000, guid: 773e49d916f65bb4db3e0f64c71d9121, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -54,9 +70,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Metalic: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 1, b: 0.60366416, a: 0}
-    - _ScrollVelocity: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

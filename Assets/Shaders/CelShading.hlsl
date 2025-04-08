@@ -90,7 +90,7 @@ void MultipleLightsDiffuse_float(float3 WorldPos, float3 WorldNormal, float2 Cut
     {
         Light light = GetAdditionalLight(i, WorldPos);
 
-        float3 color = dot(WorldNormal, light.direction);
+        float3 color = dot(WorldNormal, light.direction);   // cálculo clásico de Lambert
         color = saturate(color);    // saturate evita los valores negativos
         color = smoothstep(CutoffThresholds.x, CutoffThresholds.y, color);
         color *= light.color;
@@ -135,14 +135,13 @@ void MultipleLightsSpecular_float(float3 WorldPos, float3 WorldNormal, float2 Cu
         Light light = GetAdditionalLight(i, WorldPos);
 
         float3 viewDir = normalize(_WorldSpaceCameraPos - WorldPos);
-        float3 direction = normalize(viewDir + light.direction);
-        float3 color = dot(WorldNormal, direction);
-        color = saturate(color);
-        float3 NdotL = dot(WorldNormal, light.direction);
-        NdotL = step(0.5f, NdotL);
-        color *= NdotL;
-        color = pow(color, Smoothness);
-        color *= light.color;
+        float3 halfDir = normalize(viewDir + light.direction); // Blinn-Phong
+
+        float NdotH = saturate(dot(WorldNormal, halfDir));
+        float NdotL = step(0.5f, dot(WorldNormal, light.direction));
+        float specular = pow(NdotH, Smoothness) * NdotL;
+
+        float3 color = specular * light.color;
         float atten = light.distanceAttenuation * light.shadowAttenuation;
         color *= atten;
 
@@ -162,14 +161,13 @@ void MultipleLightsSpecular_half(half3 WorldPos, half3 WorldNormal, half2 Cutoff
         Light light = GetAdditionalLight(i, WorldPos);
 
         half3 viewDir = normalize(_WorldSpaceCameraPos - WorldPos);
-        half3 direction = normalize(viewDir + light.direction);
-        half3 color = dot(WorldNormal, direction);
-        color = saturate(color);
-        half3 NdotL = dot(WorldNormal, light.direction);
-        NdotL = step(0.5f, NdotL);
-        color *= NdotL;
-        color = pow(color, Smoothness);
-        color *= light.color;
+        half3 halfDir = normalize(viewDir + light.direction); // Blinn-Phong
+
+        half NdotH = saturate(dot(WorldNormal, halfDir));
+        half NdotL = step(0.5f, dot(WorldNormal, light.direction));
+        half specular = pow(NdotH, Smoothness) * NdotL;
+
+        half3 color = specular * light.color;
         half atten = light.distanceAttenuation * light.shadowAttenuation;
         color *= atten;
 

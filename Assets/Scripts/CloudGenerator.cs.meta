@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 79d799ec990156b4f991b5160d951a3a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - quadMesh: {instanceID: 0}
+  - cloudMateriaL: {instanceID: 0}
+  - cam: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

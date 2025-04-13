@@ -23,8 +23,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _CloudVShape:
+        m_Texture: {fileID: 2800000, guid: 4dff7b540f3944e44ac6a601ccb80208, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ClusterShape:
+        m_Texture: {fileID: 2800000, guid: 4dff7b540f3944e44ac6a601ccb80208, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_173fab1461f8461eb9934a665a40f4c5_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: dc7c3fbec5af05645a9dc02b0f6f7e09, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_4b9a9c7eb4a142b59f99257a8fb90e08_Texture_1_Texture2D:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_cca14ed3d9094d2d8240314e21214adf_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 4dff7b540f3944e44ac6a601ccb80208, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_fcf3b31f1c9246cd971918f4572d27aa_Texture_1_Texture2D:
@@ -45,22 +61,25 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CloudCutoff: 0.487
+    - _CloudCutoff: 0.638
     - _CloudEdge: 0.1
-    - _CloudSoftness: 0.06
+    - _CloudSoftness: 0.13
+    - _CloudVShapePower: 0.48
     - _EdgeSoftness: 1.76
+    - _EmissionPower: 0.057
+    - _GeneralShapePower: 1
     - _GradientScale: 0.05
-    - _GradientScale_1: 0.79
-    - _GradientScale_2: 0.58
-    - _GradientScale_Master: 0.05
-    - _NoiseSpeed: 5
+    - _GradientScale_1: 0.7
+    - _GradientScale_2: 0.3
+    - _GradientScale_Master: 0.2
+    - _NoiseSpeed: 3
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _TaperPower: 7
+    - _TaperPower: 1.6
     - _VoronoiDensity: 0.1
     - _VoronoiDistribution: 5
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
     - _ProjectionRotation: {r: 1, g: 0, b: 0, a: 90}
     - _RotateAxis: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

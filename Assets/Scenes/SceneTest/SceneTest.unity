@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientSkyColor: {r: 0.754717, g: 0.67162174, b: 0.44499823, a: 1}
+  m_AmbientEquatorColor: {r: 0.6320754, g: 0.36076003, b: 0.36076003, a: 1}
+  m_AmbientGroundColor: {r: 0.4811321, g: 0.43050984, b: 0.31545925, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45088214, g: 0.4991715, b: 0.56591177, a: 1}
+  m_IndirectSpecularColor: {r: 0.4507103, g: 0.49880034, b: 0.56490046, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -377,13 +377,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 408102759}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19860049, y: -0.25328928, z: 0.053214833, w: 0.9452886}
+  m_LocalRotation: {x: 0.19257459, y: -0.25362316, z: 0.051600195, w: 0.9465346}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 23.73, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 23, y: -30, z: 0}
 --- !u!114 &408102762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,7 +637,7 @@ Transform:
   m_GameObject: {fileID: 486921164}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.359, y: 1.895, z: -1.468}
+  m_LocalPosition: {x: 3.261, y: 1.895, z: -1.432}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -770,8 +770,8 @@ Transform:
   m_GameObject: {fileID: 687135373}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 30, y: 30, z: 1}
+  m_LocalPosition: {x: 0, y: 35, z: 0}
+  m_LocalScale: {x: 50, y: 50, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -788,11 +788,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d799ec990156b4f991b5160d951a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalStackSize: 30
-  cloudHeight: 10
+  horizontalStackSize: 50
+  cloudHeight: 15
   quadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   cloudMaterial: {fileID: 2100000, guid: 7de8fd8dcac36184aafef2f53529797c, type: 2}
   layer: 0
+  cam: {fileID: 0}
 --- !u!1 &840534674
 GameObject:
   m_ObjectHideFlags: 0

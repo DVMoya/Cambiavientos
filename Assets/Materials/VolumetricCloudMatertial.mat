@@ -65,6 +65,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AtmosphereDistance: 400
     - _CloudCutoff: 0.42
     - _CloudEdge: 0.1
     - _CloudSoftness: 0.59
@@ -82,13 +83,15 @@ Material:
     - _OscilatorSpeed: -0.1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SSSstrength: 0.15
+    - _SSSfocus: 3
+    - _SSSstrength: 0.21
     - _ShadowStrength: 1
-    - _ShadowsOffset: 0.43
+    - _ShadowsOffset: 0.19
     - _TaperPower: 0.59
     - _VoronoiDensity: 0.1
     - _VoronoiDistribution: 5
     m_Colors:
+    - _AtmosphereColor: {r: 0, g: 0.01571752, b: 0.42745098, a: 0}
     - _BaseColor: {r: 0.12833789, g: 0.114809506, b: 0.16226411, a: 0}
     - _ProjectionRotation: {r: 1, g: 0, b: 0, a: 90}
     - _RotateAxis: {r: 0, g: 0, b: 0, a: 0}

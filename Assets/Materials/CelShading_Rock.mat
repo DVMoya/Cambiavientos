@@ -56,7 +56,7 @@ Material:
     - _SnowCoverage: 1
     - _SnowCutoff: 1
     - _SnowStrength: 1
-    - _SnowTextureNoise: 20
+    - _SnowTextureNoise: 25
     - _SpecularStrength: 0
     m_Colors:
     - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}

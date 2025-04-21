@@ -48,14 +48,20 @@ Material:
     - _AmbientStrength: 0.5
     - _FalloffAmount: 0.05
     - _FresnelSize: 0.1
+    - _FresnelStrength: 1
     - _LightingCutoff: 0.66
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 1000
+    - _SnowCoverage: 1
+    - _SnowCutoff: 1
+    - _SnowStrength: 1
+    - _SnowTextureNoise: 25
     - _SpecularStrength: 1
     m_Colors:
     - _DiffuseColor: {r: 1, g: 1, b: 1, a: 0}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
+    - _SnowColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6376175534233440093

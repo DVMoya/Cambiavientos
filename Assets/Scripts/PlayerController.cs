@@ -1,27 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
     public float moveAcceleration;
+    public float airFriction;
     public float groundDrag;
+    public float maxSlopeAngle;
 
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
 
+    [Header("Stair Check")]
+    public Transform stairCheck;
+    public LayerMask whatIsStair;
+    public float stairJumpStrength;
+    bool staired = false;
+
     public Transform orientation;
 
+    // --- INPUT HANDLING ---
     float horizontalInput;
     float verticalInput;
 
+    // --- MOVEMENT HANDLING ---
     Vector3 moveDirection;
 
+    // --- RAYCAST HANDLING ---
     Rigidbody rb;
+    private RaycastHit slopeHit;
+    private RaycastHit stairHit;
+    
 
     private void Start()
     {
@@ -59,9 +74,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        // ground check raycast
         Gizmos.color = Color.red;
         Vector3 direction = transform.TransformDirection(Vector3.down) * (playerHeight * 0.5f + 0.2f);
         Gizmos.DrawRay(transform.position, direction);
+
+        // stair check raycast
+        Gizmos.color = Color.blue;
+        direction = stairCheck.TransformDirection(Vector3.down) * (playerHeight);
+        Gizmos.DrawRay(stairCheck.position + moveDirection.normalized * 0.2f, direction);
+        Gizmos.color = Color.yellow;
+        direction = stairCheck.TransformDirection(Vector3.down) * (playerHeight * 0.5f - 0.3f);
+        Gizmos.DrawRay(stairCheck.position + moveDirection.normalized * 0.2f, direction);
     }
 
     private void MyInput()
@@ -75,18 +99,94 @@ public class PlayerController : MonoBehaviour
         // calcula la dirección en la que se mueve el personaje
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        rb.AddForce(moveDirection.normalized * moveSpeed * moveAcceleration, ForceMode.Force);
+        // en cuesta
+        if (OnSlope())
+        {
+            rb.AddForce(GetSlopeMovedirection() * moveSpeed * moveAcceleration, ForceMode.Force);
+            
+            if(rb.velocity.y > 0)
+                rb.AddForce(Vector3.down * 10f, ForceMode.Force);   // para compensar la falta de gravedad
+        }
+        // en no cuesta
+        else if (grounded)
+        {
+            rb.AddForce(moveDirection.normalized * moveSpeed * moveAcceleration, ForceMode.Force);
+        }
+        // en el aire
+        else if (!grounded)
+        {
+            rb.AddForce(moveDirection.normalized * moveSpeed * moveAcceleration * (1f/airFriction), ForceMode.Force);
+        }
+
+        // en caso de estar subiendo escaleras empujo al jugador hacia arriba
+        if (OnStair())
+        {
+            if(stairHit.distance > playerHeight * 0.5f - 0.3f &&
+               stairHit.distance < playerHeight * 0.5f) {
+                staired = true;
+                rb.AddForce(Vector3.up * stairJumpStrength, ForceMode.Force);
+            } else {
+                staired = false;
+                if(stairHit.distance > playerHeight * 0.5f + 0.05f)
+                    rb.AddForce(Vector3.down * 20f, ForceMode.Force);    // hace que se pedue a las escaleras cuando las baja
+            }
+        }
+
+        // activar/desactivar la gravedad dependiendo del terreno
+        rb.useGravity = !OnSlope() && !staired;
     }
 
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        // Evito sobrepasar la velocidad máxima
-        if(flatVel.magnitude > moveSpeed)
+        // limita la velocidad sobre una pendiente
+        if (OnSlope())
         {
-            Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+            if(rb.velocity.magnitude > moveSpeed)
+                rb.velocity = rb.velocity.normalized * moveSpeed;
         }
+        // limita la velocidad cuando no esta en una pendiente
+        else
+        {
+            Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+            // Evito sobrepasar la velocidad máxima
+            if(flatVel.magnitude > moveSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+            }
+
+            if (rb.velocity.y > moveSpeed)
+                rb.velocity = new Vector3(rb.velocity.x, moveSpeed, rb.velocity.x);
+        }
+
+        
+    }
+
+    private bool OnSlope()
+    {
+        if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.2f))
+        {
+            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            return angle < maxSlopeAngle && angle != 0;
+        }
+
+        return false;
+    }
+
+    private Vector3 GetSlopeMovedirection()
+    {
+        // Proyectar la dirección de movimiento sobre el plano inclinado por el que se mueve el personaje
+        return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
+    }
+
+    private bool OnStair()
+    {
+        return Physics.Raycast(
+            stairCheck.position + moveDirection.normalized * 0.2f,
+            Vector3.down,
+            out stairHit,
+            playerHeight,
+            whatIsStair);
     }
 }

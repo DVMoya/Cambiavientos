@@ -74,13 +74,10 @@ public class GameManager : MonoBehaviour
 
     private void SetCameraSettings()
     {
-        //Volume.GetComponent<LiftGammaGain>().gamma = Gamma;
         if(Volume.profile.TryGet<LiftGammaGain>(out liftGammaGain))
         {
             liftGammaGain.active = true;
 
-            //Vector4 newGamma = ((Vector4)liftGammaGain.gamma);
-            //newGamma.w = Gamma;
             liftGammaGain.gamma.SetValue(Gamma);
         }
 

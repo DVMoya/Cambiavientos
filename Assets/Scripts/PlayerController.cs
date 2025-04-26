@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour
     public float stairJumpStrength;
     bool staired = false;
 
+    [Header("Climbing")]
+    public LayerMask whatIsLedge;
+    public float climbDuration;
+    bool isClimbing = false;
+
     public Transform orientation;
 
     // --- INPUT HANDLING ---
@@ -31,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     // --- MOVEMENT HANDLING ---
     Vector3 moveDirection;
+    Collider ledgeCollider = null;
 
     // --- RAYCAST HANDLING ---
     Rigidbody rb;
@@ -46,6 +52,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // si estoy subiendo a un saliente me espero a terminar de subir
+        if (isClimbing) return;
+
         // ¿Estoy en el suelo?
         grounded = Physics.Raycast(
             transform.position, 
@@ -56,6 +65,7 @@ public class PlayerController : MonoBehaviour
         
 
         MyInput();
+        Climb();
         SpeedControl();
 
         // Lidia con la fricción del suelo
@@ -63,7 +73,6 @@ public class PlayerController : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
-                
     }
 
     private void FixedUpdate()
@@ -86,6 +95,10 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.yellow;
         direction = stairCheck.TransformDirection(Vector3.down) * (playerHeight * 0.5f - 0.3f);
         Gizmos.DrawRay(stairCheck.position + moveDirection.normalized * 0.2f, direction);
+
+        // ledge check
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position, moveDirection.normalized * 1f);
     }
 
     private void MyInput()
@@ -159,8 +172,6 @@ public class PlayerController : MonoBehaviour
             if (rb.velocity.y > moveSpeed)
                 rb.velocity = new Vector3(rb.velocity.x, moveSpeed, rb.velocity.x);
         }
-
-        
     }
 
     private bool OnSlope()
@@ -188,5 +199,66 @@ public class PlayerController : MonoBehaviour
             out stairHit,
             playerHeight,
             whatIsStair);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Crate"))
+        {
+            ledgeCollider = other;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other == ledgeCollider)
+        {
+            ledgeCollider = null;
+        }
+    }
+
+    private void Climb()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if(Physics.Raycast(
+                transform.position, 
+                moveDirection.normalized, 
+                out var firstHit, 
+                1f, 
+                whatIsLedge))
+            {
+                // encontrado saliente al que subirse
+                Debug.Log("encontrado saliente al que subirse");
+                if(Physics.Raycast(
+                    firstHit.point + (Vector3.forward * 0.3f) + (Vector3.up * 1f * playerHeight), // el 1f es para modificar el tamaño final del rayo en caso de querer modificarlo
+                    Vector3.down, 
+                    out var secondHit, 
+                    playerHeight))
+                {
+                    // encontrado punto al que subirse
+                    Debug.Log("encontrado punto al que subirse");
+                    Vector3 targetPosition = secondHit.point + moveDirection.normalized * 0.75f + Vector3.up * (playerHeight * 0.5f + 0.1f);
+                    StartCoroutine(LerpClimb(targetPosition, climbDuration));
+                }
+            }
+        }
+    }
+
+    IEnumerator LerpClimb(Vector3 targetPosition, float duration)
+    {
+        float time = 0f;
+        Vector3 startPosition = transform.position;
+
+        while (time < duration) 
+        { 
+            transform.position = Vector3.Lerp(startPosition, targetPosition, time/duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+
+        Debug.Log("terminado de subir al saliente");
     }
 }

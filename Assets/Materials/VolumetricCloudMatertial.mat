@@ -65,7 +65,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AtmosphereDistance: 400
+    - _AtmosphereDistance: 200
     - _CloudCutoff: 0.42
     - _CloudEdge: 0.1
     - _CloudSoftness: 0.59

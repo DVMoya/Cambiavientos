@@ -27,9 +27,6 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614555}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614614}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614647}
       id: 0
       isStickyNote: 0
@@ -46,12 +43,6 @@ MonoBehaviour:
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614558}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614611}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614623}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614653}
@@ -73,15 +64,6 @@ MonoBehaviour:
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614606}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614675}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614620}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614664}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614905}
@@ -243,7 +225,7 @@ MonoBehaviour:
   - name: Scale
     collapsed: 1
   - name: Wobble
-    collapsed: 0
+    collapsed: 1
   - name: LayersSetup
     collapsed: 1
   uiBounds:
@@ -592,7 +574,7 @@ VisualEffectResource:
   m_Infos:
     m_RendererSettings:
       motionVectorGenerationMode: 0
-      shadowCastingMode: 0
+      shadowCastingMode: 1
       receiveShadows: 0
       reflectionProbeUsage: 0
       lightProbeUsage: 0
@@ -1270,8 +1252,12 @@ MonoBehaviour:
   needsOwnSort: 0
   shaderGraph: {fileID: 4333940904281232215, guid: 9914b4b788137694d91902dea1d80dc4, type: 3}
   materialSettings:
-    m_PropertyNames: []
-    m_PropertyValues: []
+    m_PropertyNames:
+    - _QueueOffset
+    - _QueueControl
+    m_PropertyValues:
+    - 0
+    - 0
   MeshCount: 1
   lod: 0
 --- !u!114 &8926484042661614607
@@ -2561,7 +2547,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614648}
   m_ExposedName: TornadoColor
   m_Exposed: 1
-  m_Order: 5
+  m_Order: 10
   m_Category: LayersSetup
   m_Min:
     m_Type:
@@ -2777,7 +2763,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614654}
   m_ExposedName: Scale
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 1
   m_Category: Scale
   m_Min:
     m_Type:
@@ -3160,7 +3146,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614670}
   m_ExposedName: ScaleOverLifeX
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 3
   m_Category: Scale
   m_Min:
     m_Type:
@@ -3256,7 +3242,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614672}
   m_ExposedName: ScaleOverLifeY
   m_Exposed: 1
-  m_Order: 2
+  m_Order: 5
   m_Category: Scale
   m_Min:
     m_Type:
@@ -3352,7 +3338,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614674}
   m_ExposedName: ScaleOverLifeZ
   m_Exposed: 1
-  m_Order: 3
+  m_Order: 7
   m_Category: Scale
   m_Min:
     m_Type:
@@ -3647,7 +3633,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614682}
   m_ExposedName: TornadoCurveDisolve
   m_Exposed: 1
-  m_Order: 4
+  m_Order: 9
   m_Category: LayersSetup
   m_Min:
     m_Type:
@@ -3855,7 +3841,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614688}
   m_ExposedName: DisolveCurve
   m_Exposed: 1
-  m_Order: 5
+  m_Order: 11
   m_Category: 
   m_Min:
     m_Type:
@@ -5212,8 +5198,12 @@ MonoBehaviour:
   needsOwnSort: 0
   shaderGraph: {fileID: 4333940904281232215, guid: 9914b4b788137694d91902dea1d80dc4, type: 3}
   materialSettings:
-    m_PropertyNames: []
-    m_PropertyValues: []
+    m_PropertyNames:
+    - _QueueOffset
+    - _QueueControl
+    m_PropertyValues:
+    - 0
+    - 0
   MeshCount: 1
   lod: 0
 --- !u!114 &8926484042661614728
@@ -6676,7 +6666,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614773}
   m_ExposedName: TornadoOverlayColor
   m_Exposed: 1
-  m_Order: 3
+  m_Order: 8
   m_Category: LayersSetup
   m_Min:
     m_Type:
@@ -6892,7 +6882,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614779}
   m_ExposedName: TornadoOverlayDisolve
   m_Exposed: 1
-  m_Order: 2
+  m_Order: 6
   m_Category: LayersSetup
   m_Min:
     m_Type:
@@ -8312,8 +8302,12 @@ MonoBehaviour:
   needsOwnSort: 0
   shaderGraph: {fileID: 4333940904281232215, guid: 9914b4b788137694d91902dea1d80dc4, type: 3}
   materialSettings:
-    m_PropertyNames: []
-    m_PropertyValues: []
+    m_PropertyNames:
+    - _QueueOffset
+    - _QueueControl
+    m_PropertyValues:
+    - 0
+    - 0
   MeshCount: 1
   lod: 0
 --- !u!114 &8926484042661614821
@@ -10048,7 +10042,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614874}
   m_ExposedName: TornadoInnerDisolve
   m_Exposed: 1
-  m_Order: 0
+  m_Order: 2
   m_Category: LayersSetup
   m_Min:
     m_Type:
@@ -10128,7 +10122,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614876}
   m_ExposedName: TornadoInnerColor
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 4
   m_Category: LayersSetup
   m_Min:
     m_Type:
@@ -10764,7 +10758,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614906}
   m_ExposedName: WobbleIntensity
   m_Exposed: 1
-  m_Order: 6
+  m_Order: 12
   m_Category: Wobble
   m_Min:
     m_Type:
@@ -10860,7 +10854,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614908}
   m_ExposedName: WobbleSpeed
   m_Exposed: 1
-  m_Order: 7
+  m_Order: 13
   m_Category: Wobble
   m_Min:
     m_Type:
@@ -10956,7 +10950,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614910}
   m_ExposedName: WobbleFrequency
   m_Exposed: 1
-  m_Order: 8
+  m_Order: 14
   m_Category: Wobble
   m_Min:
     m_Type:
@@ -11052,7 +11046,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614912}
   m_ExposedName: WobbleAmmount
   m_Exposed: 1
-  m_Order: 9
+  m_Order: 15
   m_Category: Wobble
   m_Min:
     m_Type:

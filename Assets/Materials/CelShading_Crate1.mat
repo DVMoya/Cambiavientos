@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CelShading_Red 1
+  m_Name: CelShading_Crate1
   m_Shader: {fileID: -6465566751694194690, guid: 63c6d70dfe35dc041a0c1334a004643b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _DiffuseTexture:
-        m_Texture: {fileID: 2800000, guid: 8fd67c37b3001b64aa0e5013110fc5cd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0af2d69f1e3ba8f44a60a5803319d5d1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SmoothTexture:
@@ -45,19 +45,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AmbientStrength: 0.5
+    - _AmbientStrength: 0.7
     - _FalloffAmount: 0.05
     - _FresnelSize: 0.1
-    - _FresnelStrength: 1
+    - _FresnelStrength: 0
     - _LightingCutoff: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 1000
     - _SnowCoverage: 1
     - _SnowCutoff: 1
-    - _SnowStrength: 1
-    - _SnowTextureNoise: 25
-    - _SpecularStrength: 0.123
+    - _SnowStrength: 0
+    - _SnowTextureNoise: 84.32
+    - _SpecularStrength: 0
     m_Colors:
     - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}

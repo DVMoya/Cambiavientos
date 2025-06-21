@@ -53,10 +53,10 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 1000
-    - _SnowCoverage: 0.47
-    - _SnowCutoff: 0.54
-    - _SnowStrength: 1
-    - _SnowTextureNoise: 23.68
+    - _SnowCoverage: 1
+    - _SnowCutoff: 1
+    - _SnowStrength: 0
+    - _SnowTextureNoise: 84.32
     - _SpecularStrength: 0
     m_Colors:
     - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}

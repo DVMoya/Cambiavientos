@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,10 @@ public class CameraController : MonoBehaviour
 
     public float rotationSpeed;
 
+
+    [SerializeField] private CinemachineFreeLook freeLook;
+    [SerializeField] private RadialMenu cambiavientosMenu;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -20,6 +25,23 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        // Detectar si se abre el menú radial del Cambiavientos
+        if (Input.GetKeyUp(KeyCode.Mouse2))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            freeLook.enabled = true;
+            cambiavientosMenu.Close();
+        }
+        else if(Input.GetKeyDown(KeyCode.Mouse2))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            freeLook.enabled = false;
+            cambiavientosMenu.Open();
+            return;
+        }        
+
         // Obtener la dirección en la que apunto
         Vector3 viewDirection = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         orientation.forward = viewDirection.normalized;

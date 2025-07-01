@@ -26,21 +26,25 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         // Detectar si se abre el menú radial del Cambiavientos
-        if (Input.GetKeyUp(KeyCode.Mouse2))
+        if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             freeLook.enabled = true;
-            cambiavientosMenu.Close();
+            cambiavientosMenu.ShowSelectedWeather();
+            cambiavientosMenu.Toggle();
         }
-        else if(Input.GetKeyDown(KeyCode.Mouse2))
+        else if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             freeLook.enabled = false;
-            cambiavientosMenu.Open();
+            cambiavientosMenu.Toggle();
             return;
-        }        
+        } else if (Input.GetKey(KeyCode.Mouse0))
+        {
+            return; // esto evita que magus pueda girar mientras este habierto el menu radial
+        }
 
         // Obtener la dirección en la que apunto
         Vector3 viewDirection = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);

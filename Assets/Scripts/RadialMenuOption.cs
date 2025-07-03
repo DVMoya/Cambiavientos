@@ -8,8 +8,7 @@ using DG.Tweening;
 
 public class RadialMenuOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField]
-    TextMeshProUGUI Label;
+    private string txt;
 
     [SerializeField]
     RawImage Icon;
@@ -26,12 +25,12 @@ public class RadialMenuOption : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void SetLabel(string pText)
     {
-        Label.text = pText;
+        txt = pText;
     }
 
     public string GetLabel()
     {
-        return (Label.text);
+        return (txt);
     }
 
     public void SetIcon(Texture pIcon)

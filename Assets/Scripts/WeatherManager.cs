@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class WeatherManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Clear()
     {
-        
+        Debug.Log("The weather is CLEAR, the SUN is SHINING...");
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Rain()
     {
-        
+        Debug.Log("The sky is CLOUDY and RAIN falls uncesantly...");
+    }
+    public void Snow()
+    {
+        Debug.Log("The falling SNOW calms your nerves and FREEZES your lungs...");
+    }
+    public void Storm()
+    {
+        Debug.Log("A RAGING STORM aproaches, be aware of LIGHTNINS...");
+    }
+    public void Tornado()
+    {
+        Debug.Log("DOROTHY is missing, hope the tornado didn`t catch her, or TOTO...");
     }
 }

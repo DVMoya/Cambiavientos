@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _CloudShape:
-        m_Texture: {fileID: 2800000, guid: 49697d7d16cb11b4a96fc6f691db843f, type: 3}
+        m_Texture: {fileID: 2800000, guid: f0396aedc3bcde14aa64f99ff431fdac, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CloudVShape:
@@ -66,19 +66,19 @@ Material:
     m_Ints: []
     m_Floats:
     - _AtmosphereDistance: 200
-    - _CloudCutoff: 0.42
+    - _CloudCutoff: 0.75
     - _CloudEdge: 0.1
-    - _CloudSoftness: 0.59
+    - _CloudSoftness: 0.07
     - _CloudVShapePower: 0.48
     - _EdgeSoftness: 1.76
     - _EmissionPower: 0.1
-    - _GeneralShapePower: 1
+    - _GeneralShapePower: 0.89
     - _GradientDirection_1: 45
     - _GradientDirection_2: 60
     - _GradientScale: 0.05
-    - _GradientScale_1: 0.03
-    - _GradientScale_2: 0.07
-    - _GradientScale_Master: 0.1
+    - _GradientScale_1: 0.3
+    - _GradientScale_2: 0.15
+    - _GradientScale_Master: 0.03
     - _NoiseSpeed: 5
     - _OscilatorSpeed: -0.1
     - _QueueControl: 0
@@ -87,12 +87,12 @@ Material:
     - _SSSstrength: 0.21
     - _ShadowStrength: 1
     - _ShadowsOffset: 0.19
-    - _TaperPower: 0.59
+    - _TaperPower: 1.52
     - _VoronoiDensity: 0.1
     - _VoronoiDistribution: 5
     m_Colors:
-    - _AtmosphereColor: {r: 0, g: 0.01571752, b: 0.42745098, a: 0}
-    - _BaseColor: {r: 0.12833789, g: 0.114809506, b: 0.16226411, a: 0}
+    - _AtmosphereColor: {r: 0.38212174, g: 0.3939947, b: 0.7056604, a: 0}
+    - _BaseColor: {r: 0.099515945, g: 0, b: 0.10943389, a: 0}
     - _ProjectionRotation: {r: 1, g: 0, b: 0, a: 90}
     - _RotateAxis: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

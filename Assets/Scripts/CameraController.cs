@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -32,16 +33,16 @@ public class CameraController : MonoBehaviour
             Cursor.visible = false;
             freeLook.enabled = true;
             cambiavientosMenu.ShowSelectedWeather();
-            cambiavientosMenu.Toggle();
+            cambiavientosMenu.Close();
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0))
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && cambiavientosMenu.canOpen)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             freeLook.enabled = false;
-            cambiavientosMenu.Toggle();
+            cambiavientosMenu.Open();
             return;
-        } else if (Input.GetKey(KeyCode.Mouse0))
+        } else if (Input.GetKey(KeyCode.Mouse0) && cambiavientosMenu.canOpen)
         {
             return; // esto evita que magus pueda girar mientras este habierto el menu radial
         }

@@ -9,6 +9,18 @@ using System.ComponentModel;
 
 public class RadialMenu : MonoBehaviour
 {
+    [HideInInspector]
+    public enum WeatherType
+    {
+        Clear,
+        Rain,
+        Snow,
+        Storm,
+        Tornado
+    }
+
+    [HideInInspector] public static WeatherType currentWeather;
+
     public bool canOpen = true;
 
     [SerializeField]
@@ -29,6 +41,12 @@ public class RadialMenu : MonoBehaviour
     cloudCutoff = .75 --> nubes normales
     baseColor --> no puede tener nada de luz sino la emisión aumenta demasiado
     */
+
+    [SerializeField] ParticleSystem rainPS;
+    [SerializeField] ParticleSystem rainPSripple;
+    [SerializeField] ParticleSystem snowPSa;
+    [SerializeField] ParticleSystem snowPSb;
+    [SerializeField] ParticleSystem snowPSc;
 
     [Header("Lighting Settings")]
     public float clearLight = 1f;
@@ -76,6 +94,8 @@ public class RadialMenu : MonoBehaviour
         };
 
         Clear();
+
+        currentWeather = WeatherType.Clear;
     }
 
     void AddOption(string pLabel, Texture pIcon)
@@ -137,6 +157,16 @@ public class RadialMenu : MonoBehaviour
     {
         previousWeather = selectedWeather;
         selectedWeather = selected;
+
+        currentWeather = selectedWeather switch
+        {
+            "WEATHER_CLEAR" => WeatherType.Clear,
+            "WEATHER_RAIN" => WeatherType.Rain,
+            "WEATHER_SNOW" => WeatherType.Snow,
+            "WEATHER_STORM" => WeatherType.Storm,
+            "WEATHER_TORNADO" => WeatherType.Tornado,
+            _ => WeatherType.Clear,
+        };
     }
 
     public void ShowSelectedWeather()
@@ -155,6 +185,10 @@ public class RadialMenu : MonoBehaviour
         if (previousWeather != "WEATHER_CLEAR"){
             StartCoroutine(LerpCloudCutoff(0.75f, transitionTime));
             StartCoroutine(LerpAmbienLighting(true, clearLight, transitionTime));
+
+            // desactiva las particulas de lluvia y nieve
+            if (rainPS.isPlaying)  ToggleRain();
+            if (snowPSa.isPlaying) ToggleSnow();
         }
     }
     void Rain()
@@ -163,6 +197,10 @@ public class RadialMenu : MonoBehaviour
         if (previousWeather != "WEATHER_RAIN"){
             StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
             StartCoroutine(LerpAmbienLighting(false, rainLight, transitionTime));
+
+            // desactivo los copos de nieve antes de que empiece a llover
+            if (snowPSa.isPlaying) ToggleSnow();
+            if (!rainPS.isPlaying) ToggleRain();
         }
     }
     void Snow()
@@ -171,6 +209,10 @@ public class RadialMenu : MonoBehaviour
         if (previousWeather != "WEATHER_SNOW"){
             StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
             StartCoroutine(LerpAmbienLighting(false, snowLight, transitionTime));
+
+            // desactivo la lluvia antes de que empiece a nevar
+            if (rainPS.isPlaying) ToggleRain();
+            if (!snowPSa.isPlaying) ToggleSnow();
         }
     }
     void Storm()
@@ -179,6 +221,10 @@ public class RadialMenu : MonoBehaviour
         if (previousWeather != "WEATHER_STORM"){
             StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
             StartCoroutine(LerpAmbienLighting(false, stormLight, transitionTime));
+
+            // desactivo los copos de nieve antes de que empiece a llover
+            if (snowPSa.isPlaying) ToggleSnow();
+            if (!rainPS.isPlaying) ToggleRain();
         }
     }
     void Tornado()
@@ -187,6 +233,10 @@ public class RadialMenu : MonoBehaviour
         if (previousWeather != "WEATHER_TORNADO"){
             StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
             StartCoroutine(LerpAmbienLighting(false, tornadoLight, transitionTime));
+
+            // incluso si puede llover durante un tornado, me gusta como se ve sin partículas
+            if (rainPS.isPlaying) ToggleRain();
+            if (snowPSa.isPlaying) ToggleSnow();
         }
     }
 
@@ -256,5 +306,41 @@ public class RadialMenu : MonoBehaviour
         }
 
         Debug.Log("Light changes with the CLOUDS...");
+    }
+
+    private void ToggleRain()
+    {
+        //StartCoroutine(ToggleParticles(rainPSripple));
+        StartCoroutine(ToggleParticles(rainPS));
+    }
+    private void ToggleSnow()
+    {
+        StartCoroutine(ToggleParticles(snowPSa));
+        StartCoroutine(ToggleParticles(snowPSb));
+        StartCoroutine(ToggleParticles(snowPSc));
+    }
+
+    IEnumerator ToggleParticles(ParticleSystem ps)
+    {
+        if(ps.gameObject.activeInHierarchy) 
+        {
+            // si está activo quiero parar las partículas, darle un segundo o dos y despues desactivarlo
+            ps.Stop();
+
+            while (ps.IsAlive())
+            {
+                yield return null;
+            }
+
+            ps.gameObject.SetActive(false);
+
+        } else
+        {
+            // si no está activo quiero activarlo y darle a play inmediatamente
+            ps.gameObject.SetActive(true);
+            ps.Play();
+        }
+
+        yield return null;
     }
 }

@@ -55,8 +55,8 @@ Material:
     - _Smoothness: 1000
     - _SnowCoverage: 1
     - _SnowCutoff: 1
-    - _SnowStrength: 0
-    - _SnowTextureNoise: 84.32
+    - _SnowStrength: 1
+    - _SnowTextureNoise: 30
     - _SpecularStrength: 0
     - _TextureStrength: 1
     m_Colors:

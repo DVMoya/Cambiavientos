@@ -6,21 +6,10 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 using System.ComponentModel;
+using UnityEngine.VFX;
 
 public class RadialMenu : MonoBehaviour
 {
-    [HideInInspector]
-    public enum WeatherType
-    {
-        Clear,
-        Rain,
-        Snow,
-        Storm,
-        Tornado
-    }
-
-    [HideInInspector] public static WeatherType currentWeather;
-
     [Header("CanvasSettings")]
     public static bool canOpen = true;
 
@@ -37,6 +26,11 @@ public class RadialMenu : MonoBehaviour
 
     [Header("ObjectReferences")]
     [SerializeField] WindmillController windmill;
+    LightningRodDetector lightningRodDetector;
+
+    [SerializeField]
+    private List<Material> snowMaterials = new List<Material>();
+    public string whatIsGround = "Ground";
 
     [Header("Weather Settings")]
     public Material cloudMaterial;
@@ -97,9 +91,34 @@ public class RadialMenu : MonoBehaviour
             {"WEATHER_TORNADO", Tornado}
         };
 
-        Clear();
+        AddGroundMaterials();
 
-        currentWeather = WeatherType.Clear;
+        lightningRodDetector = FindObjectOfType<LightningRodDetector>();
+
+        Clear();
+        StartCoroutine(ToggleSnowCoverage(false, 0.01f));
+    }
+
+    void AddGroundMaterials()
+    {
+        // Encuentra todos los objetos con el "ground" tag
+        GameObject[] groundObjects = GameObject.FindGameObjectsWithTag(whatIsGround);
+
+        foreach (GameObject obj in groundObjects)
+        {
+            Renderer renderer = obj.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                // Add all materials from the renderer to the list
+                foreach (Material mat in renderer.sharedMaterials)
+                {
+                    if (!snowMaterials.Contains(mat))
+                    {
+                        snowMaterials.Add(mat);
+                    }
+                }
+            }
+        }
     }
 
     void AddOption(string pLabel, Texture pIcon)
@@ -161,21 +180,16 @@ public class RadialMenu : MonoBehaviour
     {
         previousWeather = selectedWeather;
         selectedWeather = selected;
-
-        currentWeather = selectedWeather switch
-        {
-            "WEATHER_CLEAR" => WeatherType.Clear,
-            "WEATHER_RAIN" => WeatherType.Rain,
-            "WEATHER_SNOW" => WeatherType.Snow,
-            "WEATHER_STORM" => WeatherType.Storm,
-            "WEATHER_TORNADO" => WeatherType.Tornado,
-            _ => WeatherType.Clear,
-        };
     }
 
     public void ShowSelectedWeather()
     {
         if (selectedWeather == previousWeather) { return; }
+
+        if(selectedWeather != "WEATHER_SNOW" && selectedWeather != "WEATHER_NONE"){
+            // desactivo la capa de nieve del material para la lista de objetos estáticos
+            StartCoroutine(ToggleSnowCoverage(false, transitionTime));
+        }
 
         WeatherDyctionary[selectedWeather]?.Invoke();
     }
@@ -242,6 +256,9 @@ public class RadialMenu : MonoBehaviour
 
             // hago que el molino pase a idle
             StartCoroutine(WindmillSpeed(false, transitionTime));
+
+            // inicio el ciclo que hace que aparezcan rayos en los pararayos
+            StartCoroutine(SpawnLightning());
         }
     }
     void Tornado()
@@ -350,6 +367,41 @@ public class RadialMenu : MonoBehaviour
 
     }
 
+    IEnumerator ToggleSnowCoverage(bool snowCoverage, float duration)
+    {
+        float initialCutoff;
+        float targetCutoff = 1f;
+        if(snowCoverage) targetCutoff = 0.1f;
+        // snow cut off == 0.1 --> casi todo cubierto de nieve
+        // snow cut off == 1   --> nada cubierto de nieve
+        foreach(Material mtr in snowMaterials)
+        {
+            if(mtr.HasProperty("_SnowCutoff"))
+            {
+                initialCutoff = mtr.GetFloat("_SnowCutoff");
+
+                StartCoroutine(TransitionSnow(mtr, initialCutoff, targetCutoff, duration));
+            }
+        }
+
+        yield return null;
+    }
+
+    IEnumerator TransitionSnow(Material mtr, float initialCutoff, float targetCutoff, float duration)
+    {
+        float time = 0f;
+
+        while(time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            mtr.SetFloat("_SnowCutoff", Mathf.Lerp(initialCutoff, targetCutoff, t));
+
+            yield return null;
+        }
+    }
+
     private void ToggleRain()
     {
         //StartCoroutine(ToggleParticles(rainPSripple));
@@ -360,6 +412,9 @@ public class RadialMenu : MonoBehaviour
         StartCoroutine(ToggleParticles(snowPSa));
         StartCoroutine(ToggleParticles(snowPSb));
         StartCoroutine(ToggleParticles(snowPSc));
+
+        // activo la capa de nieve del material para la lista de objetos estáticos
+        StartCoroutine(ToggleSnowCoverage(true, transitionTime));
     }
 
     IEnumerator ToggleParticles(ParticleSystem ps)
@@ -384,5 +439,20 @@ public class RadialMenu : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    IEnumerator SpawnLightning()
+    {
+        while(selectedWeather == "WEATHER_STORM" || selectedWeather == "WEATHER_NONE")
+        {
+            yield return new WaitForSeconds(4f);
+
+            if (lightningRodDetector.lightningRodsInRange.Count > 0)
+            {
+                int rand = UnityEngine.Random.Range(0, lightningRodDetector.lightningRodsInRange.Count);
+                GameObject target = lightningRodDetector.lightningRodsInRange[rand];
+                target.GetComponentInChildren<VisualEffect>().Play();
+            }
+        }
     }
 }

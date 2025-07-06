@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 883553463435060461}
+  - component: {fileID: 424009618295531088}
   m_Layer: 0
   m_Name: windmill
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,6 +34,29 @@ Transform:
   - {fileID: 575297924857101423}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &424009618295531088
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3495844963909207164}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Height: 12
+  m_Direction: 1
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1001 &31920022420790148
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,16 +109,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: windmill_wings
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cc3574db83044274daf20fd800a3262b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc3574db83044274daf20fd800a3262b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1384423892061308615}
   m_SourcePrefab: {fileID: 100100000, guid: cc3574db83044274daf20fd800a3262b, type: 3}
 --- !u!4 &575297924857101423 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cc3574db83044274daf20fd800a3262b, type: 3}
   m_PrefabInstance: {fileID: 31920022420790148}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &914246971035756245 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cc3574db83044274daf20fd800a3262b, type: 3}
+  m_PrefabInstance: {fileID: 31920022420790148}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1384423892061308615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914246971035756245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1aabea5e433c748a41590d0599a7b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity: 10
 --- !u!1001 &8846687301739151746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -143,9 +192,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c785fe53e51c0834fbdc995294876119, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 531ddc686612f0c4e8272fbc7d25aff6, type: 2}
     - target: {fileID: 919132149155446097, guid: c785fe53e51c0834fbdc995294876119, type: 3}
       propertyPath: m_Name
       value: windmill_base
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c785fe53e51c0834fbdc995294876119, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

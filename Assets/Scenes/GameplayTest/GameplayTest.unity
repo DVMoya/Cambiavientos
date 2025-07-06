@@ -1647,7 +1647,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799047707}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1891075, y: 1e-45, z: -0, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: 1e-45, z: -0, w: 0.9819564}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3003,6 +3003,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 4791b616d9f9e6849a00f16b85013ac7, type: 3}
   transitionTime: 4
   windmill: {fileID: 411669589}
+  snowMaterials: []
+  whatIsGround: Ground
   cloudMaterial: {fileID: 2100000, guid: 7de8fd8dcac36184aafef2f53529797c, type: 2}
   rainPS: {fileID: 480977737}
   rainPSripple: {fileID: 121944544}
@@ -3886,7 +3888,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1491721436}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17121494, y: -1e-45, z: -0, w: 0.9852337}
+  m_LocalRotation: {x: 0.17121494, y: -0, z: -0, w: 0.9852337}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4629,7 +4631,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822990918}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15331319, y: -0.0000000085014795, z: 0.0000000013189823, w: 0.98817766}
+  m_LocalRotation: {x: 0.15331319, y: 0.0000000085014795, z: -0.0000000013189823, w: 0.98817766}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

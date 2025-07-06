@@ -184,9 +184,9 @@ public class RadialMenu : MonoBehaviour
 
     public void ShowSelectedWeather()
     {
-        if (selectedWeather == previousWeather) { return; }
+        if (selectedWeather == previousWeather || selectedWeather == "WEATHER_NONE") { return; }
 
-        if(selectedWeather != "WEATHER_SNOW" && selectedWeather != "WEATHER_NONE"){
+        if(selectedWeather != "WEATHER_SNOW" ){
             // desactivo la capa de nieve del material para la lista de objetos estáticos
             StartCoroutine(ToggleSnowCoverage(false, transitionTime));
         }
@@ -196,6 +196,7 @@ public class RadialMenu : MonoBehaviour
 
     void NoWeather()
     {
+        selectedWeather = previousWeather;
         Debug.Log("Something's WRONG, the HEAVENS are BROKEN...");
     }
     void Clear()
@@ -241,6 +242,9 @@ public class RadialMenu : MonoBehaviour
 
             // hago que el molino pase a idle
             StartCoroutine(WindmillSpeed(false, transitionTime));
+
+            // activo la capa de nieve del material para la lista de objetos estáticos
+            StartCoroutine(ToggleSnowCoverage(true, transitionTime));
         }
     }
     void Storm()
@@ -371,8 +375,8 @@ public class RadialMenu : MonoBehaviour
     {
         float initialCutoff;
         float targetCutoff = 1f;
-        if(snowCoverage) targetCutoff = 0.1f;
-        // snow cut off == 0.1 --> casi todo cubierto de nieve
+        if(snowCoverage) targetCutoff = 0.4f;
+        // snow cut off == 0.4 --> casi todo cubierto de nieve
         // snow cut off == 1   --> nada cubierto de nieve
         foreach(Material mtr in snowMaterials)
         {
@@ -412,9 +416,6 @@ public class RadialMenu : MonoBehaviour
         StartCoroutine(ToggleParticles(snowPSa));
         StartCoroutine(ToggleParticles(snowPSb));
         StartCoroutine(ToggleParticles(snowPSc));
-
-        // activo la capa de nieve del material para la lista de objetos estáticos
-        StartCoroutine(ToggleSnowCoverage(true, transitionTime));
     }
 
     IEnumerator ToggleParticles(ParticleSystem ps)
@@ -443,7 +444,7 @@ public class RadialMenu : MonoBehaviour
 
     IEnumerator SpawnLightning()
     {
-        while(selectedWeather == "WEATHER_STORM" || selectedWeather == "WEATHER_NONE")
+        while(selectedWeather == "WEATHER_STORM")
         {
             yield return new WaitForSeconds(4f);
 

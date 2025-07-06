@@ -58,6 +58,7 @@ Material:
     - _SnowStrength: 0
     - _SnowTextureNoise: 84.32
     - _SpecularStrength: 0
+    - _TextureStrength: 1
     m_Colors:
     - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Crate
+  - LightningRod
   layers:
   - Default
   - TransparentFX

@@ -21,7 +21,8 @@ public class RadialMenu : MonoBehaviour
 
     [HideInInspector] public static WeatherType currentWeather;
 
-    public bool canOpen = true;
+    [Header("CanvasSettings")]
+    public static bool canOpen = true;
 
     [SerializeField]
     GameObject OptionPrefab;
@@ -32,7 +33,10 @@ public class RadialMenu : MonoBehaviour
     [SerializeField]
     List<Texture> Icons;
 
-    public float transitionTime = 1f;
+    public float transitionTime = 4f;
+
+    [Header("ObjectReferences")]
+    [SerializeField] WindmillController windmill;
 
     [Header("Weather Settings")]
     public Material cloudMaterial;
@@ -172,6 +176,7 @@ public class RadialMenu : MonoBehaviour
     public void ShowSelectedWeather()
     {
         if (selectedWeather == previousWeather) { return; }
+
         WeatherDyctionary[selectedWeather]?.Invoke();
     }
 
@@ -189,6 +194,9 @@ public class RadialMenu : MonoBehaviour
             // desactiva las particulas de lluvia y nieve
             if (rainPS.isPlaying)  ToggleRain();
             if (snowPSa.isPlaying) ToggleSnow();
+
+            // hago que el molino pase a idle
+            StartCoroutine(WindmillSpeed(false, transitionTime));
         }
     }
     void Rain()
@@ -201,6 +209,9 @@ public class RadialMenu : MonoBehaviour
             // desactivo los copos de nieve antes de que empiece a llover
             if (snowPSa.isPlaying) ToggleSnow();
             if (!rainPS.isPlaying) ToggleRain();
+
+            // hago que el molino pase a idle
+            StartCoroutine(WindmillSpeed(false, transitionTime));
         }
     }
     void Snow()
@@ -213,6 +224,9 @@ public class RadialMenu : MonoBehaviour
             // desactivo la lluvia antes de que empiece a nevar
             if (rainPS.isPlaying) ToggleRain();
             if (!snowPSa.isPlaying) ToggleSnow();
+
+            // hago que el molino pase a idle
+            StartCoroutine(WindmillSpeed(false, transitionTime));
         }
     }
     void Storm()
@@ -225,6 +239,9 @@ public class RadialMenu : MonoBehaviour
             // desactivo los copos de nieve antes de que empiece a llover
             if (snowPSa.isPlaying) ToggleSnow();
             if (!rainPS.isPlaying) ToggleRain();
+
+            // hago que el molino pase a idle
+            StartCoroutine(WindmillSpeed(false, transitionTime));
         }
     }
     void Tornado()
@@ -237,6 +254,9 @@ public class RadialMenu : MonoBehaviour
             // incluso si puede llover durante un tornado, me gusta como se ve sin partículas
             if (rainPS.isPlaying) ToggleRain();
             if (snowPSa.isPlaying) ToggleSnow();
+
+            // hago que el molino se ponga a mil
+            StartCoroutine(WindmillSpeed(true, transitionTime));
         }
     }
 
@@ -306,6 +326,28 @@ public class RadialMenu : MonoBehaviour
         }
 
         Debug.Log("Light changes with the CLOUDS...");
+    }
+
+    IEnumerator WindmillSpeed(bool highOn, float duration)
+    {
+        float time = 0f;
+        float initialSpeed = windmill.velocity;
+        float targetSpeed = 10f;
+        if (highOn)
+        {
+            targetSpeed = 600f;
+        }
+
+        while(time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            windmill.velocity = Mathf.Lerp(initialSpeed, targetSpeed, t);
+
+            yield return null;
+        }
+
     }
 
     private void ToggleRain()

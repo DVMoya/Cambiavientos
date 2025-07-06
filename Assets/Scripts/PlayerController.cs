@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
     
     private void MovePlayer()
     {
-        if (Input.GetKey(KeyCode.Mouse0))   // no quiero que magus se pueda mover mientras esté abierto el menú del cambiavientos
+        if (Input.GetKey(KeyCode.Mouse0) && RadialMenu.canOpen)   // no quiero que magus se pueda mover mientras esté abierto el menú del cambiavientos
         {
             rb.velocity = Vector3.zero;
             return;

@@ -35,14 +35,14 @@ public class CameraController : MonoBehaviour
             cambiavientosMenu.ShowSelectedWeather();
             cambiavientosMenu.Close();
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && cambiavientosMenu.canOpen)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && RadialMenu.canOpen)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             freeLook.enabled = false;
             cambiavientosMenu.Open();
             return;
-        } else if (Input.GetKey(KeyCode.Mouse0) && cambiavientosMenu.canOpen)
+        } else if (Input.GetKey(KeyCode.Mouse0) && RadialMenu.canOpen)
         {
             return; // esto evita que magus pueda girar mientras este habierto el menu radial
         }

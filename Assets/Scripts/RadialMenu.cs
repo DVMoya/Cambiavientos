@@ -7,11 +7,16 @@ using DG.Tweening;
 using System;
 using System.ComponentModel;
 using UnityEngine.VFX;
+using UnityEngine.Rendering;
 
 public class RadialMenu : MonoBehaviour
 {
     [Header("CanvasSettings")]
     public static bool canOpen = true;
+    private bool waterUp = false;
+    // water up --> y = 0f
+    // water down --> y = -3f
+    private bool spawnLightning = false;
 
     [SerializeField]
     GameObject OptionPrefab;
@@ -32,13 +37,19 @@ public class RadialMenu : MonoBehaviour
     private List<Material> snowMaterials = new List<Material>();
     public string whatIsGround = "Ground";
 
-    [Header("Weather Settings")]
-    public Material cloudMaterial;
+    public CloudGenerator cloud;
+    private Material cloudMaterial;
     /*
     cloudCutoff = 0 --> nubes 100%
     cloudCutoff = .75 --> nubes normales
     baseColor --> no puede tener nada de luz sino la emisión aumenta demasiado
     */
+    public Transform waterPosition;
+    public GameObject water;
+    private Material waterMaterial;
+    public Collider waterCollider;
+
+    [Header("Weather Settings")]
 
     [SerializeField] ParticleSystem rainPS;
     [SerializeField] ParticleSystem rainPSripple;
@@ -91,10 +102,14 @@ public class RadialMenu : MonoBehaviour
             {"WEATHER_TORNADO", Tornado}
         };
 
+        // obtengo las referencias a los materiales
+        cloudMaterial = cloud.cloudMaterial;
+        waterMaterial = water.GetComponent<Renderer>().sharedMaterial;
         AddGroundMaterials();
 
         lightningRodDetector = FindObjectOfType<LightningRodDetector>();
 
+        waterMaterial.SetFloat("_Freeze", 0f);
         Clear();
         StartCoroutine(ToggleSnowCoverage(false, 0.01f));
     }
@@ -203,6 +218,8 @@ public class RadialMenu : MonoBehaviour
     {
         Debug.Log("The weather is CLEAR, the SUN is SHINING...");
         if (previousWeather != "WEATHER_CLEAR"){
+            spawnLightning = false;
+
             StartCoroutine(LerpCloudCutoff(0.75f, transitionTime));
             StartCoroutine(LerpAmbienLighting(true, clearLight, transitionTime));
 
@@ -212,12 +229,18 @@ public class RadialMenu : MonoBehaviour
 
             // hago que el molino pase a idle
             StartCoroutine(WindmillSpeed(false, transitionTime));
+
+            // bajo el nivel del agua (se evapora)
+            if(waterUp) 
+                StartCoroutine(ChangeWaterLevel(waterPosition.position.y-3f, transitionTime));
         }
     }
     void Rain()
     {
         Debug.Log("The sky is CLOUDY and RAIN falls uncesantly...");
         if (previousWeather != "WEATHER_RAIN"){
+            spawnLightning = false;
+
             StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
             StartCoroutine(LerpAmbienLighting(false, rainLight, transitionTime));
 
@@ -227,12 +250,17 @@ public class RadialMenu : MonoBehaviour
 
             // hago que el molino pase a idle
             StartCoroutine(WindmillSpeed(false, transitionTime));
+
+            // Sube el nivel del agua con la lluvia
+            if (!waterUp) StartCoroutine(ChangeWaterLevel(waterPosition.position.y+3f, transitionTime));
         }
     }
     void Snow()
     {
         Debug.Log("The falling SNOW calms your nerves and FREEZES your lungs...");
         if (previousWeather != "WEATHER_SNOW"){
+            spawnLightning = false;
+
             StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
             StartCoroutine(LerpAmbienLighting(false, snowLight, transitionTime));
 
@@ -251,6 +279,8 @@ public class RadialMenu : MonoBehaviour
     {
         Debug.Log("A RAGING STORM aproaches, be aware of LIGHTNINS...");
         if (previousWeather != "WEATHER_STORM"){
+            spawnLightning = true;
+
             StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
             StartCoroutine(LerpAmbienLighting(false, stormLight, transitionTime));
 
@@ -263,12 +293,17 @@ public class RadialMenu : MonoBehaviour
 
             // inicio el ciclo que hace que aparezcan rayos en los pararayos
             StartCoroutine(SpawnLightning());
+
+            // Sube el nivel del agua con la lluvia
+            if (!waterUp) StartCoroutine(ChangeWaterLevel(waterPosition.position.y+3f, transitionTime));
         }
     }
     void Tornado()
     {
         Debug.Log("DOROTHY is missing, hope the tornado didn`t catch her, or TOTO...");
         if (previousWeather != "WEATHER_TORNADO"){
+            spawnLightning = false;
+
             StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
             StartCoroutine(LerpAmbienLighting(false, tornadoLight, transitionTime));
 
@@ -388,7 +423,31 @@ public class RadialMenu : MonoBehaviour
             }
         }
 
-        yield return null;
+        float time = 0f;
+        float initialFreeze = waterMaterial.GetFloat("_Freeze");
+        float targetFreeze = initialFreeze;
+        waterCollider.enabled = true;
+        if (selectedWeather == "WEATHER_SNOW")
+        {
+            targetFreeze = 1f;
+        } else if(selectedWeather == "WEATHER_CLEAR")
+        {
+            targetFreeze = 0f;
+        }
+        if(waterUp && targetFreeze == 1f)
+        {
+            waterCollider.enabled = false;
+        }
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            waterMaterial.SetFloat("_Freeze", Mathf.Lerp(initialFreeze, targetFreeze, t));
+
+            yield return null;
+        }
     }
 
     IEnumerator TransitionSnow(Material mtr, float initialCutoff, float targetCutoff, float duration)
@@ -431,7 +490,6 @@ public class RadialMenu : MonoBehaviour
             }
 
             ps.gameObject.SetActive(false);
-
         } else
         {
             // si no está activo quiero activarlo y darle a play inmediatamente
@@ -442,9 +500,31 @@ public class RadialMenu : MonoBehaviour
         yield return null;
     }
 
+    IEnumerator ChangeWaterLevel(float targetLvl, float duration)
+    {
+        if (waterMaterial.GetFloat("_Freeze") < 1f)
+        {
+            waterUp = !waterUp;
+
+            float time = 0f;
+            Vector3 pos = waterPosition.position;
+            float initialLvl = pos.y;
+
+            while (time < duration)
+            {
+                time += Time.deltaTime;
+                float t = time / duration;
+
+                waterPosition.position = new Vector3(pos.x, Mathf.Lerp(initialLvl, targetLvl, t), pos.z);
+
+                yield return null;
+            }
+        }
+    }
+
     IEnumerator SpawnLightning()
     {
-        while(selectedWeather == "WEATHER_STORM")
+        while(spawnLightning)
         {
             yield return new WaitForSeconds(4f);
 

@@ -190,7 +190,6 @@ public class RadialMenu : MonoBehaviour
             rect.localScale = Vector3.zero;
             rect.DOScale(Vector3.one, .3f).SetEase(Ease.OutQuad).SetDelay(0.05f);
             rect.DOAnchorPos(new Vector3(x, y, 0), .3f).SetEase(Ease.OutQuad).SetDelay(0.05f);
-
         }
     }
 
@@ -541,6 +540,15 @@ public class RadialMenu : MonoBehaviour
                 int rand = UnityEngine.Random.Range(0, lightningRodDetector.lightningRodsInRange.Count);
                 GameObject target = lightningRodDetector.lightningRodsInRange[rand];
                 target.GetComponentInChildren<VisualEffect>().Play();
+
+                // no todos los pararrayos tienen porque poder activar algo, pero los que pueden lo hacen
+                // en el caso de esta demo son pistones que levantan y bajan plataformas
+                Activator activator = target.GetComponent<Activator>();
+                if(activator != null && !activator.isMoving) 
+                {
+                    activator.isMoving = true;
+                    activator.SoftMove(transitionTime);
+                }
             }
         }
     }

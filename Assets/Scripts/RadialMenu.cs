@@ -28,10 +28,13 @@ public class RadialMenu : MonoBehaviour
     List<Texture> Icons;
 
     public float transitionTime = 4f;
+    public float tornadoTransition = 4.5f;
 
     [Header("ObjectReferences")]
     [SerializeField] WindmillController windmill;
+    [SerializeField] VisualEffect tornado;
     LightningRodDetector lightningRodDetector;
+
 
     [SerializeField]
     private List<Material> snowMaterials = new List<Material>();
@@ -304,15 +307,16 @@ public class RadialMenu : MonoBehaviour
         if (previousWeather != "WEATHER_TORNADO"){
             spawnLightning = false;
 
-            StartCoroutine(LerpCloudCutoff(0.0f, transitionTime));
-            StartCoroutine(LerpAmbienLighting(false, tornadoLight, transitionTime));
+            StartCoroutine(SpawnTornado(tornadoTransition));
+            StartCoroutine(LerpCloudCutoff(0.0f, transitionTime - 3f));
+            StartCoroutine(LerpAmbienLighting(false, tornadoLight, transitionTime - 3f));
 
             // incluso si puede llover durante un tornado, me gusta como se ve sin partículas
             if (rainPS.isPlaying) ToggleRain();
             if (snowPSa.isPlaying) ToggleSnow();
 
             // hago que el molino se ponga a mil
-            StartCoroutine(WindmillSpeed(true, transitionTime));
+            StartCoroutine(WindmillSpeed(true, transitionTime - 3f));
         }
     }
 
@@ -338,8 +342,12 @@ public class RadialMenu : MonoBehaviour
             yield return null;
         }
 
-        // ahora que ha terminado la transición sí que se puede volver a usar el cambiavientos
-        canOpen = true;
+        if(selectedWeather != "WEATHER_TORNADO" || !(selectedWeather == "WEATHER_NONE" && previousWeather == "WEATHER_TORNADO"))
+        {
+            // ahora que ha terminado la transición sí que se puede volver a usar el cambiavientos
+            canOpen = true;
+        }
+        
 
         Debug.Log("The sky RUMBLES anew...");
     }
@@ -535,5 +543,21 @@ public class RadialMenu : MonoBehaviour
                 target.GetComponentInChildren<VisualEffect>().Play();
             }
         }
+    }
+
+    IEnumerator SpawnTornado(float duration)
+    {
+        tornado.Play();
+
+        float time = 0f;
+        while(time < duration)
+        {
+            time += Time.deltaTime;
+            // aun esta la animacion del tornado
+            yield return null;
+        }
+
+        selectedWeather = "WEATHER_CLEAR";
+        ShowSelectedWeather();
     }
 }

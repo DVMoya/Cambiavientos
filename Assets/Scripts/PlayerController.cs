@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
+    public Animator animator;
+
     [Header("Movement")]
     public float moveSpeed;
     public float moveAcceleration;
@@ -53,7 +55,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // si estoy subiendo a un saliente me espero a terminar de subir
-        if (isClimbing) return;
+        if (isClimbing)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
 
         // ¿Estoy en el suelo?
         grounded = Physics.Raycast(
@@ -73,6 +79,9 @@ public class PlayerController : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
+
+        if(horizontalInput != 0 || verticalInput != 0) animator.SetBool("IsWalking", true);
+        else animator.SetBool("IsWalking", false);
     }
 
     private void FixedUpdate()
@@ -253,6 +262,9 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator LerpClimb(Vector3 targetPosition, float duration)
     {
+        isClimbing = true;
+        animator.SetBool("IsClimbing", isClimbing);
+
         float time = 0f;
         Vector3 startPosition = transform.position;
 
@@ -264,6 +276,9 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.position = targetPosition;
+
+        isClimbing = false;
+        animator.SetBool("IsClimbing", isClimbing);
 
         Debug.Log("terminado de subir al saliente");
     }

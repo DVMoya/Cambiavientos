@@ -14,8 +14,12 @@ public class Activator : MonoBehaviour
     [SerializeField]
     GameObject[] movables;
 
+    private AudioSource audioThunder;
+
     private void Start()
     {
+        audioThunder = GetComponentInChildren<AudioSource>();
+
         InstantReset();
     }
 
@@ -37,36 +41,59 @@ public class Activator : MonoBehaviour
     {
         isOff = !isOff;
 
-        StartCoroutine(MoveMovable(duration));
+        audioThunder.volume = 2f;
+        audioThunder.pitch = Random.Range(0.9f, 1.1f);
+        audioThunder.spatialBlend = 1f;
+        audioThunder.Play();
+
+        StartCoroutine(MoveMovable(duration-0.5f)); 
+        // --> Hago que dure un poco para que el movimiento no coincida exáctamente con el impacto del rayo
     }
 
     IEnumerator MoveMovable(float duration)
     {
-        Debug.Log("Moving piston");
-
         float time = 0f;
+        isMoving = true;
 
+        // Coge la posicion inicial y objetivo
+        List<float> initialPositions = new List<float>();
+        List<float> targetPositions = new List<float>();
+
+        for (int i = 0; i < movables.Length; i++)
+        {
+            float initialY = movables[i].transform.position.y;
+            float targetY = isOff ? startingPos[i] : movePos[i];
+
+            initialPositions.Add(initialY);
+            targetPositions.Add(targetY);
+        }
+
+        // Mueve el objeto activado a la nueva posición en duration segundos
         while (time < duration)
         {
             time += Time.deltaTime;
             float t = time / duration;
 
-            int i = 0;
-            foreach (var movable in movables)
+            for (int i = 0; i < movables.Length; i++)
             {
-                Vector3 pos = movable.transform.position;
-                float initialPos = pos.y;
-                float targetPos = movePos[i];
-                if (isOff) targetPos = startingPos[i];
+                Vector3 pos = movables[i].transform.position;
+                float newY = Mathf.Lerp(initialPositions[i], targetPositions[i], t);
+                movables[i].transform.position = new Vector3(pos.x, newY, pos.z);
 
-                pos = new Vector3(pos.x, Mathf.Lerp(initialPos, targetPos, t), pos.z);
-
-                movable.transform.position = pos;
-
-                i++;
+                movables[i].GetComponent<Piston>()?.PlayMove();
             }
 
             yield return null;
+        }
+
+        // Asegura que la posición final es exacta
+        for (int i = 0; i < movables.Length; i++)
+        {
+            Vector3 pos = movables[i].transform.position;
+            float finalY = targetPositions[i];
+            movables[i].transform.position = new Vector3(pos.x, finalY, pos.z);
+
+            movables[i].GetComponent<Piston>()?.PlayStay();
         }
 
         isMoving = false;

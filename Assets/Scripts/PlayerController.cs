@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public float groundDrag;
     public float maxSlopeAngle;
 
+    public float stepTime = 0.5f;
+
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
@@ -50,6 +52,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        StartCoroutine(PlayStepSound());
     }
 
     private void Update()
@@ -80,7 +84,9 @@ public class PlayerController : MonoBehaviour
         else
             rb.drag = 0;
 
-        if(horizontalInput != 0 || verticalInput != 0) animator.SetBool("IsWalking", true);
+        if(horizontalInput != 0 || verticalInput != 0 &&
+         !(Input.GetKey(KeyCode.Mouse0) && RadialMenu.canOpen)) 
+            animator.SetBool("IsWalking", true);
         else animator.SetBool("IsWalking", false);
     }
 
@@ -281,5 +287,18 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsClimbing", isClimbing);
 
         Debug.Log("terminado de subir al saliente");
+    }
+
+    IEnumerator PlayStepSound()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(stepTime);
+
+            if(animator.GetBool("IsWalking"))
+            {
+                FindObjectOfType<AudioManager>().Play("STEP");
+            }
+        }
     }
 }

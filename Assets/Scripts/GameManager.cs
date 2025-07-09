@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     [Header("References")]
     public CinemachineFreeLook FreeLookCamera;
-    public Volume Volume;
+    public Volume GlobalVolume;
 
 
     private LiftGammaGain liftGammaGain;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
 
         // actualizar las variables del GameManager
-        if (Volume.profile.TryGet<LiftGammaGain>(out liftGammaGain))
+        if (GlobalVolume.profile.TryGet<LiftGammaGain>(out liftGammaGain))
         {
             Gamma = liftGammaGain.gamma;
         }
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 
     private void SetCameraSettings()
     {
-        if(Volume.profile.TryGet<LiftGammaGain>(out liftGammaGain))
+        if(GlobalVolume.profile.TryGet<LiftGammaGain>(out liftGammaGain))
         {
             liftGammaGain.active = true;
 

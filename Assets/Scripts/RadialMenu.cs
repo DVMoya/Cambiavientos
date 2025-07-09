@@ -108,10 +108,10 @@ public class RadialMenu : MonoBehaviour
         // obtengo las referencias a los materiales
         cloudMaterial = cloud.cloudMaterial;
         waterMaterial = water.GetComponent<Renderer>().sharedMaterial;
+        lightningRodDetector = FindObjectOfType<LightningRodDetector>();
         AddGroundMaterials();
 
-        lightningRodDetector = FindObjectOfType<LightningRodDetector>();
-
+        // cambio el estado a clear
         waterMaterial.SetFloat("_Freeze", 0f);
         Clear();
         StartCoroutine(ToggleSnowCoverage(false, 0.01f));
@@ -219,6 +219,9 @@ public class RadialMenu : MonoBehaviour
     void Clear()
     {
         Debug.Log("The weather is CLEAR, the SUN is SHINING...");
+
+        FindObjectOfType<AudioManager>().ChangeAmbientSound("AMBIENCE_CLEAR");
+
         if (previousWeather != "WEATHER_CLEAR"){
             spawnLightning = false;
 
@@ -240,6 +243,9 @@ public class RadialMenu : MonoBehaviour
     void Rain()
     {
         Debug.Log("The sky is CLOUDY and RAIN falls uncesantly...");
+
+        FindObjectOfType<AudioManager>().ChangeAmbientSound("AMBIENCE_RAIN");
+
         if (previousWeather != "WEATHER_RAIN"){
             spawnLightning = false;
 
@@ -260,6 +266,9 @@ public class RadialMenu : MonoBehaviour
     void Snow()
     {
         Debug.Log("The falling SNOW calms your nerves and FREEZES your lungs...");
+
+        FindObjectOfType<AudioManager>().ChangeAmbientSound("AMBIENCE_RAIN");
+
         if (previousWeather != "WEATHER_SNOW"){
             spawnLightning = false;
 
@@ -280,6 +289,9 @@ public class RadialMenu : MonoBehaviour
     void Storm()
     {
         Debug.Log("A RAGING STORM aproaches, be aware of LIGHTNINS...");
+
+        FindObjectOfType<AudioManager>().ChangeAmbientSound("AMBIENCE_STORM");
+
         if (previousWeather != "WEATHER_STORM"){
             spawnLightning = true;
 
@@ -303,6 +315,9 @@ public class RadialMenu : MonoBehaviour
     void Tornado()
     {
         Debug.Log("DOROTHY is missing, hope the tornado didn`t catch her, or TOTO...");
+
+        FindObjectOfType<AudioManager>().ChangeAmbientSound("AMBIENCE_TORNADO");
+
         if (previousWeather != "WEATHER_TORNADO"){
             spawnLightning = false;
 
@@ -567,5 +582,5 @@ public class RadialMenu : MonoBehaviour
 
         selectedWeather = "WEATHER_CLEAR";
         ShowSelectedWeather();
-    }
+    }    
 }
